@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TZX Tool Site</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <script type="text/javascript" src="/js/jquery.js"></script>
+</head>
+<body>
+<?php include dirname(__DIR__) . '/head.html'; ?>
+<div class="container">
+    <input name="src" class="src-input" placeholder="请输入文件或目录">
+    <br/>
+    <button class="btn-submit">提交</button>
+</div>
+<?php include dirname(__DIR__) . '/foot.html'; ?>
+</body>
+<script type="text/javascript">
+    $('.btn-submit').on('click', function () {
+        let src = $('.src-input').val();
+        if (!src) {
+            alert('请输入文件或目录');
+            return false;
+        }
+        let url = '/?r=enPhp/do';
+        let data = {src: src};
+        $.post(url, data, function (res) {
+            if (('undefined' == typeof res) || ('undefined' == typeof res.status)) {
+                alert('请求失败')
+            } else if (0 == res.status) {
+                alert('操作成功');
+            } else if ('undefined' != typeof res.message) {
+                alert(res.message);
+            }
+        }, 'json');
+    });
+</script>
+</html>
